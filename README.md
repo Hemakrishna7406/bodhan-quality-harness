@@ -13,6 +13,13 @@ python -m bodhan_eval --dataset data/demo.jsonl --langs hi,ta,bn --out ./report
 **Project page:** open [`docs/site/index.html`](docs/site/index.html) in a browser for a visual
 overview — architecture, the check table, measured results and the known limits.
 
+## Demo video
+
+A five-minute walkthrough — a full run on the demo dataset, the report, and the optional
+Control Center UI:
+
+**https://drive.google.com/file/d/1I_OxB5BFGrs01RDszR1E_Vkveair0oJl/view**
+
 ## What it does
 
 1. Reads a JSONL dataset (`id`, `source`, `lang`, plus optional `reference`,
@@ -30,9 +37,13 @@ overview — architecture, the check table, measured results and the known limit
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
-pip install -e .            # or: pip install -r requirements.txt
-cp .env.example .env        # fill in Bodhan keys + an OpenAI-compatible judge
+pip install -e .                  # pinned dependencies + the bodhan_eval package
+cp .env.example .env              # fill in BODHAN_API_KEY and a judge endpoint
 ```
+
+`requirements.txt` pins the same versions, for environments that install dependencies
+separately; in that case run `pip install -e . --no-deps` as well, so the package itself is
+importable.
 
 System dependencies: none required. Audio checks read PCM WAV directly; convert other
 formats with ffmpeg before scoring.
@@ -45,7 +56,7 @@ docker run --rm -v "$PWD:/data" -v "$PWD/.env:/app/.env:ro" bodhan-eval \
   --dataset /data/data/demo.jsonl --langs hi,ta,bn --out /data/report
 ```
 
-## Usage
+## Run
 
 ```
 python -m bodhan_eval \
@@ -65,6 +76,21 @@ python -m bodhan_eval \
 | `--speech-sample N` | Max items sent for paid back-transcription |
 | `--inject` | Self-measure: inject labelled errors into clean items first |
 | `--offline` | No model calls at all (deterministic checks only) |
+
+## Control Center (optional)
+
+The harness is a CLI, but there is a small web UI over it for exploring flags with a human
+in the loop. It serves the project page, a live translate-and-check studio, a batch runner,
+an item explorer, a review queue and a regression diff.
+
+```bash
+python tools/serve.py --port 8080 --report ./report
+# open http://localhost:8080
+```
+
+Run the CLI first so there is a `report/` to explore. The UI reads the same report files and
+never changes them; it is a viewer plus a thin trigger over the same pipeline. Nothing in the
+CLI, the tests or the scoring depends on it, so it can be ignored entirely.
 
 ## Architecture
 

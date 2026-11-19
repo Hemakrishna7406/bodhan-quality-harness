@@ -91,6 +91,13 @@ Pre-generated evaluation artifacts on the 108-item Bodhan Indic-Translate demo s
 - **[Evaluation Item Breakdown (JSONL)](docs/sample_report/items.jsonl)**
 - **[Summary Statistics (JSON)](docs/sample_report/summary.json)**
 
+## Demo video
+
+Five minutes or less — a full run on the demo dataset, a walk through the report, and the
+optional Control Center UI:
+
+**https://drive.google.com/file/d/1I_OxB5BFGrs01RDszR1E_Vkveair0oJl/view**
+
 ## Stretch goals implemented
 
 - **Interactive Web Control Center (`--serve`)**: A real-time web application to translate live with Bodhan models, inspect quality scores, and trigger dataset runs directly in the browser.
